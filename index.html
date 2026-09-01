@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#008080">
+<meta name="description" content="J'étais là 95 — un musée vivant de mots, anonyme, posé sur la Terre.">
+<title>J'étais là 95 — MC88</title>
+
+<link rel="preconnect" href="https://unpkg.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+<style>
+:root{
+  --win:#c0c0c0;
+  --win-light:#ffffff;
+  --win-dark:#808080;
+  --win-deep:#000000;
+  --blue:#000080;
+  --blue2:#1084d7;
+  --teal:#008080;
+  --paper:#ffffe1;
+  --ink:#111;
+  --muted:#555;
+  --danger:#800000;
+  --shadow:2px 2px 0 #000;
+  --font:"MS Sans Serif","Microsoft Sans Serif",Tahoma,Arial,sans-serif;
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#008080;color:var(--ink);font-family:var(--font);font-size:13px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* ---------- BOOT ---------- */
+#boot{
+  position:fixed;inset:0;z-index:10000;background:#000;color:#cfcfcf;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Courier New",monospace;
+}
+.boot-box{width:min(720px,92vw)}
+.boot-logo{font-size:clamp(30px,7vw,64px);letter-spacing:4px;color:#fff;margin-bottom:8px}
+.boot-sub{color:#aaa;margin-bottom:30px}
+.boot-lines{height:145px;border:1px solid #555;padding:12px;overflow:hidden;font-size:13px;line-height:1.65}
+.boot-line{opacity:0;animation:bootLine .25s forwards}
+.boot-progress{height:17px;border:1px solid #777;margin-top:20px;padding:2px}
+.boot-progress>div{height:100%;width:0;background:#aaa;animation:bootProgress 2.8s linear forwards}
+.boot-ready{margin-top:16px;color:#fff;opacity:0;animation:ready .2s 2.65s forwards}
+.boot-skip{margin-top:18px;background:#000;color:#aaa;border:1px solid #777;padding:5px 12px}
+@keyframes bootLine{to{opacity:1}}
+@keyframes bootProgress{to{width:100%}}
+@keyframes ready{to{opacity:1}}
+.boot-line:nth-child(1){animation-delay:.15s}.boot-line:nth-child(2){animation-delay:.35s}
+.boot-line:nth-child(3){animation-delay:.55s}.boot-line:nth-child(4){animation-delay:.75s}
+.boot-line:nth-child(5){animation-delay:.95s}.boot-line:nth-child(6){animation-delay:1.15s}
+.boot-line:nth-child(7){animation-delay:1.35s}.boot-line:nth-child(8){animation-delay:1.55s}
+
+/* ---------- MAP ---------- */
+#map{position:absolute;inset:0;background:#ddd}
+.leaflet-container{font-family:var(--font);background:#ddd}
+.leaflet-tile{filter:grayscale(1) contrast(.92) brightness(1.08)}
+.leaflet-control-zoom{display:none}
+
+/* ---------- RETRO WINDOWS ---------- */
+.window{
+  position:absolute;z-index:1000;background:var(--win);
+  border-top:2px solid var(--win-light);border-left:2px solid var(--win-light);
+  border-right:2px solid var(--win-deep);border-bottom:2px solid var(--win-deep);
+  box-shadow:4px 4px 0 rgba(0,0,0,.38);
+  min-width:270px;max-width:calc(100vw - 20px);
+}
+.titlebar{
+  height:25px;background:linear-gradient(90deg,var(--blue),var(--blue2));
+  color:#fff;display:flex;align-items:center;padding:2px 3px 2px 5px;
+  font-weight:bold;user-select:none;touch-action:none;
+}
+.titlebar .title{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-buttons{display:flex;gap:2px}
+.win-btn{
+  width:19px;height:18px;padding:0;background:var(--win);
+  color:#000;border-top:2px solid var(--win-light);border-left:2px solid var(--win-light);
+  border-right:2px solid var(--win-deep);border-bottom:2px solid var(--win-deep);
+  line-height:13px;font-weight:bold;
+}
+.win-btn:active{border-top:2px solid var(--win-deep);border-left:2px solid var(--win-deep);border-right:2px solid var(--win-light);border-bottom:2px solid var(--win-light)}
+.window-body{padding:10px}
+.statusbar{
+  border-top:2px solid var(--win-dark);padding:4px 6px;margin:7px -10px -10px;
+  font-size:11px;color:#333;
+}
+
+/* ---------- WELCOME ---------- */
+#welcome{left:50%;top:50%;transform:translate(-50%,-50%);width:520px;max-height:calc(100dvh - 80px)}
+.welcome-copy{background:var(--paper);border:2px inset #999;padding:12px;line-height:1.55;max-height:45vh;overflow:auto}
+.welcome-title{font-size:20px;font-weight:bold;margin-bottom:4px}
+.quote{font-family:"Courier New",monospace;margin:12px 0;padding:8px;border-left:4px solid #888;background:#eee}
+.button-row{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap;margin-top:9px}
+
+/* ---------- DESKTOP ICONS ---------- */
+.desktop-icons{
+  position:absolute;z-index:300;left:10px;top:10px;display:flex;flex-direction:column;gap:12px;
+}
+.icon{
+  width:78px;color:#fff;text-align:center;text-shadow:1px 1px #000;cursor:pointer;
+  user-select:none;padding:3px;
+}
+.icon:hover{background:rgba(0,0,128,.28)}
+.icon-symbol{
+  width:38px;height:38px;margin:0 auto 4px;background:#c0c0c0;color:#000;
+  border:2px outset #fff;display:flex;align-items:center;justify-content:center;
+  font-size:21px;text-shadow:none;
+}
+.icon-label{line-height:1.05}
+
+/* ---------- TASKBAR ---------- */
+#taskbar{
+  position:absolute;z-index:5000;left:0;right:0;bottom:0;height:39px;background:var(--win);
+  border-top:2px solid #fff;display:flex;align-items:center;padding:3px;gap:4px;
+}
+.start{
+  height:31px;min-width:78px;font-weight:bold;background:var(--win);
+  border:2px outset #fff;display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.start:active{border-style:inset}
+.task-buttons{display:flex;gap:3px;flex:1;overflow:hidden}
+.task-btn{
+  height:29px;min-width:90px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  background:var(--win);border:2px inset #fff;text-align:left;padding:2px 7px;
+}
+.clock{min-width:70px;text-align:center;height:29px;padding:6px 4px;border:2px inset #fff;font-family:"Courier New",monospace}
+
+/* ---------- PANEL / MENU ---------- */
+#start-menu{
+  position:absolute;z-index:7000;left:3px;bottom:40px;width:255px;background:var(--win);
+  border:2px outset #fff;box-shadow:4px 4px #000;padding:3px;
+}
+.menu-banner{height:45px;background:var(--blue);color:#fff;display:flex;align-items:center;padding:5px;font-weight:bold}
+.menu-item{padding:9px 8px;cursor:pointer}
+.menu-item:hover{background:var(--blue);color:#fff}
+
+/* ---------- COMMON UI ---------- */
+.retro-button{
+  background:var(--win);padding:6px 10px;border:2px outset #fff;min-height:30px;
+}
+.retro-button:active{border-style:inset}
+.retro-button.primary{font-weight:bold}
+.field{margin-bottom:9px}
+.field label{display:block;margin-bottom:3px}
+textarea,input,select{
+  width:100%;background:#fff;border:2px inset #aaa;padding:6px;outline:none;
+}
+textarea{resize:vertical;min-height:150px}
+.small{font-size:11px;color:var(--muted)}
+.hr{border:0;border-top:1px solid #808080;border-bottom:1px solid #fff;margin:10px 0}
+.notice{background:#fff;border:2px inset #999;padding:8px;line-height:1.45}
+.kbd{font-family:"Courier New",monospace;background:#eee;border:1px solid #888;padding:1px 4px}
+.center{text-align:center}
+
+/* ---------- TRACE VIEW ---------- */
+#trace-window{left:50%;top:50%;transform:translate(-50%,-50%);width:500px;max-height:calc(100dvh - 70px)}
+.trace-paper{background:var(--paper);border:2px inset #999;padding:13px;max-height:48vh;overflow:auto}
+.trace-text{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.55}
+.trace-meta{font-family:"Courier New",monospace;color:#555;margin-top:12px;font-size:11px}
+.trace-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.trace-nearby{margin-top:10px;border-top:1px solid #888;padding-top:8px}
+
+/* ---------- COMPOSE ---------- */
+#compose{left:50%;top:50%;transform:translate(-50%,-50%);width:520px;max-height:calc(100dvh - 70px)}
+.char-count{text-align:right;font-family:"Courier New",monospace;font-size:11px}
+.reason-note{background:#eee;border:1px solid #999;padding:7px;line-height:1.4}
+
+/* ---------- INFO WINDOWS ---------- */
+#about,#help,#settings,#report,#random-window{left:50%;top:50%;transform:translate(-50%,-50%);width:480px;max-height:calc(100dvh - 70px)}
+.scroll-body{max-height:58vh;overflow:auto;line-height:1.55}
+.section-title{font-weight:bold;background:#ddd;border:1px solid #999;padding:4px;margin:9px 0 5px}
+
+/* ---------- MAP HUD ---------- */
+.map-hud{
+  position:absolute;z-index:400;top:10px;right:10px;width:min(270px,calc(100vw - 100px));
+}
+.hud-box{background:rgba(192,192,192,.96);border:2px outset #fff;padding:5px;box-shadow:3px 3px rgba(0,0,0,.35)}
+.hud-title{background:var(--blue);color:#fff;font-weight:bold;padding:3px 5px;margin-bottom:5px}
+.hud-line{font-family:"Courier New",monospace;font-size:11px;padding:2px 4px}
+.hud-actions{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:5px}
+.hud-actions button{font-size:11px}
+
+/* ---------- CUSTOM MARKERS ---------- */
+.trace-marker{
+  width:13px;height:13px;background:#111;border:2px solid #fff;box-shadow:0 0 0 1px #000;
+  border-radius:50%;
+}
+.trace-marker.hot{width:17px;height:17px}
+.trace-marker.lighthouse{animation:pulse 1.8s infinite}
+@keyframes pulse{50%{transform:scale(1.45);opacity:.55}}
+
+/* ---------- SCANLINES ---------- */
+#scanlines{
+  position:absolute;inset:0;z-index:200;pointer-events:none;opacity:.055;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,#000 3px);
+}
+
+/* ---------- TOAST ---------- */
+#toast{
+  position:absolute;z-index:9000;left:50%;bottom:52px;transform:translateX(-50%);
+  background:#000;color:#fff;border:1px solid #fff;padding:7px 11px;
+  font-family:"Courier New",monospace;max-width:min(520px,90vw);text-align:center;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:650px){
+  body{font-size:12px}
+  .desktop-icons{left:4px;top:4px;gap:5px}
+  .icon{width:62px}
+  .icon-symbol{width:32px;height:32px;font-size:17px}
+  .map-hud{top:5px;right:5px;width:190px}
+  .hud-actions{grid-template-columns:1fr 1fr}
+  .window{max-width:calc(100vw - 10px);min-width:0}
+  #welcome,#trace-window,#compose,#about,#help,#settings,#report,#random-window{
+    width:calc(100vw - 10px);max-height:calc(100dvh - 54px)
+  }
+  .window-body{padding:8px}
+  .welcome-copy,.trace-paper{max-height:42dvh}
+  textarea{min-height:125px}
+  #taskbar{height:46px;padding:3px}
+  .start{min-width:48px;height:38px;font-size:0}
+  .start:after{content:"95";font-size:14px}
+  .task-buttons{display:none}
+  .clock{height:38px;min-width:65px;padding-top:9px}
+  #start-menu{bottom:47px;width:235px}
+  .desktop-icons .icon:nth-child(n+4){display:none}
+  .button-row{justify-content:stretch}
+  .button-row button{flex:1}
+}
+
+/* ---------- REDUCED MOTION ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+</style>
+</head>
+
+<body>
+<div id="boot">
+  <div class="boot-box">
+    <div class="boot-logo">J'ÉTAIS LÀ 95</div>
+    <div class="boot-sub">A LIVING MUSEUM OF WORDS / EARTH MEMORY SYSTEM</div>
+    <div class="boot-lines">
+      <div class="boot-line">C:\&gt; CONNECTING TO EARTH...</div>
+      <div class="boot-line">C:\&gt; LOOKING FOR HUMAN TRACES...</div>
+      <div class="boot-line">C:\&gt; LOADING THE OCEAN OF WORDS...</div>
+      <div class="boot-line">C:\&gt; NO ACCOUNT FOUND. GOOD.</div>
+      <div class="boot-line">C:\&gt; NO NAME REQUIRED.</div>
+      <div class="boot-line">C:\&gt; PREPARING THE MAP...</div>
+      <div class="boot-line">C:\&gt; LISTENING TO SILENCE...</div>
+      <div class="boot-line">C:\&gt; SYSTEM READY.</div>
+    </div>
+    <div class="boot-progress"><div></div></div>
+    <div class="boot-ready">READY — SOMEONE WAS HERE. MAYBE YOU.</div>
+    <button class="boot-skip" id="skip-boot">[ SKIP BOOT ]</button>
+  </div>
+</div>
+
+<div id="map"></div>
+<div id="scanlines"></div>
+
+<div class="desktop-icons">
+  <div class="icon" data-open="compose">
+    <div class="icon-symbol">✎</div><div class="icon-label">LEAVE A<br>TRACE</div>
+  </div>
+  <div class="icon" data-open="random-window">
+    <div class="icon-symbol">?</div><div class="icon-label">RANDOM<br>TRACE</div>
+  </div>
+  <div class="icon" data-open="help">
+    <div class="icon-symbol">?</div><div class="icon-label">HELP /<br>PROTOCOL</div>
+  </div>
+  <div class="icon" data-open="about">
+    <div class="icon-symbol">95</div><div class="icon-label">ABOUT<br>THE OCEAN</div>
+  </div>
+</div>
+
+<div class="map-hud">
+  <div class="hud-box">
+    <div class="hud-title">EARTH // MEMORY MAP</div>
+    <div class="hud-line" id="trace-count">TRACES: --</div>
+    <div class="hud-line" id="location-line">LOCATION: MAP VIEW</div>
+    <div class="hud-actions">
+      <button class="retro-button" id="near-btn">NEAR ME</button>
+      <button class="retro-button" id="random-btn">RANDOM</button>
+      <button class="retro-button" id="lighthouse-btn">LIGHTHOUSE</button>
+      <button class="retro-button" id="center-world-btn">WORLD</button>
+<button class="retro-button" id="map-toggle-btn">MAP: ON</button>
+    </div>
+  </div>
+</div>
+
+<div id="welcome" class="window hidden" data-window="welcome">
+  <div class="titlebar drag-handle">
+    <span class="title">J'ÉTAIS LÀ 95 — WELCOME</span>
+    <div class="win-buttons"><button class="win-btn close-window" aria-label="close">×</button></div>
+  </div>
+  <div class="window-body">
+    <div class="welcome-copy">
+      <div class="welcome-title">NO NAME. NO PROFILE. JUST A TRACE.</div>
+      <p>J'étais là 95 est un musée vivant de mots posé sur la Terre.</p>
+      <p>Chaque point sur la carte correspond à quelqu'un qui est passé quelque part et a décidé de laisser quelques mots.</p>
+      <div class="quote">« Si tu aimes ce que tu lis, la réponse n'est pas un bouton. Laisse quelque chose à côté. »</div>
+      <p>Il n'y a pas de fil d'actualité, pas d'abonnés, pas de score social et pas de bouton J'aime.</p>
+      <p><b>Tu peux lire. Tu peux te déplacer. Tu peux laisser une trace.</b></p>
+      <p class="small">Le site ne demande ni nom ni inscription. Les préférences comme la langue et la dernière position de la carte restent uniquement dans ton navigateur.</p>
+    </div>
+    <div class="button-row">
+      <button class="retro-button" id="open-protocol">READ PROTOCOL</button>
+      <button class="retro-button primary" id="enter-world">ENTER THE OCEAN</button>
+    </div>
+  </div>
+</div>
+
+<div id="compose" class="window hidden" data-window="compose">
+  <div class="titlebar drag-handle">
+    <span class="title">NOTEPAD — LEAVE A TRACE</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body">
+    <div class="notice">Tu n'écris pas à un profil. Tu écris dans un endroit du monde.</div>
+    <div class="field" style="margin-top:9px">
+      <label for="message">YOUR WORDS:</label>
+      <textarea id="message" maxlength="5000" placeholder="Écris ce que tu veux laisser derrière toi..."></textarea>
+      <div class="char-count"><span id="char-count">0</span> / 5000</div>
+    </div>
+    <div class="field">
+      <label for="reason">WHY ARE YOU WRITING? <span class="small">(optional)</span></label>
+      <select id="reason">
+        <option value="">— DON'T KNOW / JUST BECAUSE —</option>
+        <option>I wanted someone to read this.</option>
+        <option>I wanted to leave a memory here.</option>
+        <option>I had something to say.</option>
+        <option>I was curious.</option>
+        <option>I was passing by.</option>
+        <option>Other.</option>
+      </select>
+    </div>
+    <div class="reason-note">La position choisie sera visible sur la carte. Pour préserver l'esprit du projet, n'écris pas de données personnelles sur toi ou sur quelqu'un d'autre.</div>
+    <div class="button-row">
+      <button class="retro-button" id="use-map-location">USE MAP LOCATION</button>
+      <button class="retro-button primary" id="publish">LEAVE TRACE</button>
+    </div>
+    <div class="statusbar" id="compose-status">LOCATION: click "USE MAP LOCATION" or click a place on the map.</div>
+  </div>
+</div>
+
+<div id="trace-window" class="window hidden" data-window="trace">
+  <div class="titlebar drag-handle">
+    <span class="title">TRACE.EXE — SOMEONE WAS HERE</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body">
+    <div class="trace-paper">
+      <div class="trace-text" id="trace-text"></div>
+      <div class="trace-meta" id="trace-meta"></div>
+      <div class="trace-nearby" id="trace-nearby"></div>
+    </div>
+    <div class="trace-actions">
+      <button class="retro-button" id="go-nearby">TRACES NEARBY</button>
+      <button class="retro-button" id="reply-nearby">LEAVE SOMETHING HERE</button>
+      <button class="retro-button" id="report-open">REPORT</button>
+    </div>
+    <div class="statusbar">No likes. No dislikes. No followers. If this trace means something to you, the answer is another trace.</div>
+  </div>
+</div>
+
+<div id="report" class="window hidden" data-window="report">
+  <div class="titlebar drag-handle">
+    <span class="title">REPORT.TXT — MANUAL REVIEW</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body">
+    <p>Signaler n'est pas une réaction sociale. C'est simplement un moyen de dire : <b>« quelque chose ici doit être regardé. »</b></p>
+    <div class="field">
+      <label for="report-reason">REASON:</label>
+      <select id="report-reason">
+        <option>Spam / publicité</option>
+        <option>Harcèlement / attaque personnelle</option>
+        <option>Données personnelles</option>
+        <option>Menace / contenu dangereux</option>
+        <option>Contenu illégal</option>
+        <option>Autre</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="report-note">OPTIONAL NOTE:</label>
+      <textarea id="report-note" maxlength="1000" style="min-height:90px" placeholder="Explique brièvement ce qui doit être vérifié..."></textarea>
+    </div>
+    <div class="button-row">
+      <button class="retro-button" id="report-cancel">CANCEL</button>
+      <button class="retro-button primary" id="report-send">SEND REPORT</button>
+    </div>
+    <div class="statusbar">Les signalements sont destinés à la modération manuelle du projet.</div>
+  </div>
+</div>
+
+<div id="random-window" class="window hidden" data-window="random">
+  <div class="titlebar drag-handle">
+    <span class="title">RANDOM.EXE — ANOTHER TRACE</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body">
+    <div class="notice" id="random-result">Appuie sur RANDOM TRACE pour partir quelque part dans l'océan.</div>
+    <div class="button-row">
+      <button class="retro-button" id="random-trace">RANDOM TRACE</button>
+      <button class="retro-button" id="empty-place">FIND A QUIET PLACE</button>
+    </div>
+    <div class="statusbar">Le hasard ne choisit pas une personne. Il choisit seulement où tu regardes.</div>
+  </div>
+</div>
+
+<div id="about" class="window hidden" data-window="about">
+  <div class="titlebar drag-handle">
+    <span class="title">ABOUT.TXT — THE OCEAN OF WORDS</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body scroll-body">
+    <div class="section-title">WHAT IS THIS?</div>
+    <p>Imagine une planète couverte de petites feuilles de papier. Sur chaque feuille, quelques mots laissés par quelqu'un qui est passé là.</p>
+    <p>Pas de visage. Pas de pseudo. Pas de compteur de popularité. Seulement le lieu, le temps et les mots.</p>
+
+    <div class="section-title">THE EXPERIMENT</div>
+    <p>Le projet pose une question simple : <b>que font des humains lorsqu'on leur donne un endroit public où parler sans avoir besoin de devenir quelqu'un ?</b></p>
+    <p>Le site n'essaie pas de fabriquer une communauté. Il essaie de laisser apparaître quelque chose.</p>
+
+    <div class="section-title">THE ONLY REACTION</div>
+    <p>Il n'y a volontairement aucun système de likes, votes, followers, karma ou réputation.</p>
+    <p>Si tu apprécies une trace et que tu veux répondre, tu peux simplement <b>laisser une autre trace à proximité</b>. Quelqu'un pourra la découvrir plus tard.</p>
+
+    <div class="section-title">THE RULE</div>
+    <p>Avant d'écrire, rappelle-toi qu'un humain lira peut-être tes mots.</p>
+    <p>Pas besoin d'être poli artificiellement. Tu peux être drôle, triste, étrange, philosophique, banal ou complètement perdu. Mais ne transforme pas l'anonymat en permission de nuire.</p>
+
+    <div class="section-title">PRIVACY</div>
+    <p>Pas de compte, pas de nom obligatoire, pas d'avatar et pas d'outil de suivi public. Les préférences locales du navigateur servent seulement à faire fonctionner l'expérience.</p>
+    <p class="small">La confidentialité réelle dépend aussi de l'hébergement, du serveur et des services externes utilisés. Le projet ne doit donc pas promettre une anonymat technique absolu.</p>
+
+    <div class="statusbar">J'ÉTAIS LÀ 95 — BY MC88</div>
+  </div>
+</div>
+
+<div id="help" class="window hidden" data-window="help">
+  <div class="titlebar drag-handle">
+    <span class="title">HELP.HLP — PROTOCOL</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body scroll-body">
+    <div class="section-title">1. READ</div>
+    <p>Déplace la carte. Les points sont des traces humaines. Clique dessus pour lire.</p>
+    <div class="section-title">2. LEAVE</div>
+    <p>Choisis un endroit sur la carte, écris quelques mots, puis laisse ta trace.</p>
+    <div class="section-title">3. RESPOND</div>
+    <p>Tu n'as pas de bouton « répondre ». Si une trace te donne envie de parler, écris près d'elle. C'est la seule forme de conversation du musée.</p>
+    <div class="section-title">4. NO IDENTITY</div>
+    <p>Tu n'as pas besoin de compte, de pseudo ou de profil.</p>
+    <div class="section-title">5. REPORT</div>
+    <p>Un bouton REPORT existe uniquement pour signaler quelque chose qui mérite une vérification humaine. Les décisions sont prises manuellement.</p>
+    <div class="section-title">6. MAP ON / OFF</div>
+<p>Le bouton <b>MAP: ON / OFF</b> permet de cacher la carte lorsque tu veux simplement lire ou explorer les fenêtres. Tu peux la réactiver à tout moment.</p>
+<div class="section-title">7. THE OCEAN</div>
+    <p>Il n'y a pas d'obligation de tout lire. Il n'y a pas de classement à atteindre. Tu peux partir après trente secondes ou rester une heure.</p>
+    <div class="statusbar">WRITE WHAT YOU WANT. LEAVE YOUR TRACE. THEN GO.</div>
+  </div>
+</div>
+
+<div id="settings" class="window hidden" data-window="settings">
+  <div class="titlebar drag-handle">
+    <span class="title">CONTROL PANEL — SETTINGS</span>
+    <div class="win-buttons"><button class="win-btn close-window">×</button></div>
+  </div>
+  <div class="window-body">
+    <div class="field">
+      <label for="language">LANGUAGE:</label>
+      <select id="language">
+        <option value="fr">FRANÇAIS</option>
+        <option value="ar">العربية</option>
+        <option value="en">ENGLISH</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>SOUND:</label>
+      <button class="retro-button" id="sound-toggle">95 STATIC: OFF</button>
+    </div>
+    <div class="field">
+      <label>MAP:</label>
+      <button class="retro-button" id="reset-map">RESET WORLD VIEW</button>
+    </div>
+    <div class="notice small">Aucun de ces réglages n'est un profil. Ils restent dans ce navigateur.</div>
+  </div>
+</div>
+
+<div id="start-menu" class="hidden">
+  <div class="menu-banner">J'ÉTAIS LÀ 95</div>
+  <div class="menu-item" data-open="compose">✎ Leave a Trace</div>
+  <div class="menu-item" data-open="random-window">? Random Trace</div>
+  <div class="menu-item" data-open="help">? Help / Protocol</div>
+  <div class="menu-item" data-open="about">95 About the Ocean</div>
+  <div class="menu-item" data-open="settings">[ ] Settings</div>
+  <div class="menu-item" id="menu-close">× Close Start</div>
+</div>
+
+<div id="taskbar">
+  <button class="start" id="start-button">START</button>
+  <div class="task-buttons" id="task-buttons"></div>
+  <div class="clock" id="clock">00:00</div>
+</div>
+
+<div id="toast" class="hidden"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ============================================================
+   J'ÉTAIS LÀ 95 — FRONTEND 2.0
+   Connected to Google Sheets + Google Apps Script backend.
+   Ready for GitHub Pages.
+
+   ============================================================ */
+
+const CONFIG = {
+  DEMO_MODE: false,
+  API_URL: "https://script.google.com/macros/s/AKfycbywoyR98AlhLtGUynntsJT70sN3QzL0HNaPj5Xj1dJRDbxbB827Dg-1a7xsG43UDkc3pg/exec",
+
+  // Frontend limits; the server enforces these limits too.
+  MAX_MESSAGE_LENGTH: 5000,
+  MAX_REPORT_LENGTH: 1000,
+  POST_COOLDOWN_MS: 30000,
+
+  DEFAULT_CENTER: [20, 0],
+  DEFAULT_ZOOM: 2
+};
+
+const DEMO_TRACES = [
+  {id:"demo-01",lat:48.8566,lng:2.3522,text:"Je ne sais pas pourquoi, mais j'avais besoin de laisser ces mots quelque part.",created_at:"2026-08-28T18:20:00Z",reason:"I had something to say."},
+  {id:"demo-02",lat:35.6762,lng:139.6503,text:"Somewhere in this city, millions of people are moving at the same time. I wonder how many feel alone.",created_at:"2026-08-26T06:11:00Z",reason:"I was passing by."},
+  {id:"demo-03",lat:-33.8688,lng:151.2093,text:"I came here looking for a message. I found the map instead.",created_at:"2026-08-20T12:02:00Z",reason:"I was curious."},
+  {id:"demo-04",lat:31.6295,lng:-7.9811,text:"Si quelqu'un lit ça dans dix ans : j'espère que tu vas bien.",created_at:"2026-08-17T21:40:00Z",reason:"I wanted someone to read this."},
+  {id:"demo-05",lat:6.5244,lng:3.3792,text:"No one knows me here. That is exactly why I wanted to write.",created_at:"2026-08-13T09:00:00Z",reason:"I wanted to leave a memory here."},
+  {id:"demo-06",lat:40.4168,lng:-3.7038,text:"On peut passer une vie entière sans savoir ce qu'un inconnu aurait aimé nous dire.",created_at:"2026-08-09T16:30:00Z",reason:"I don't know."},
+  {id:"demo-07",lat:21.0079,lng:-10.9408,text:"Il y a des endroits immenses où personne ne laisse jamais de mot. Peut-être que quelqu'un sera le premier.",created_at:"2026-08-02T11:15:00Z",reason:"I was curious."},
+  {id:"demo-08",lat:51.5074,lng:-0.1278,text:"Hello, whoever you are. This is probably the closest thing to a message in a bottle.",created_at:"2026-07-27T13:10:00Z",reason:"I wanted someone to read this."}
+];
+
+let map;
+let markers = new Map();
+let traces = [];
+let selectedTrace = null;
+let composeLocation = null;
+let zCounter = 1100;
+let lastPostAt = 0;
+let soundOn = false;
+let audioCtx = null;
+
+const $ = id => document.getElementById(id);
+
+function escapeHTML(value){
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[c]));
+}
+
+function showToast(text, ms=2600){
+  const t=$("toast");
+  t.textContent=text;
+  t.classList.remove("hidden");
+  clearTimeout(showToast.timer);
+  showToast.timer=setTimeout(()=>t.classList.add("hidden"),ms);
+}
+
+function beep(freq=700,duration=.035){
+  if(!soundOn) return;
+  try{
+    audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();
+    const o=audioCtx.createOscillator(), g=audioCtx.createGain();
+    o.frequency.value=freq;o.type="square";
+    g.gain.setValueAtTime(.035,audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);
+    o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration);
+  }catch(e){}
+}
+
+function relativeDate(iso){
+  const d=new Date(iso), now=new Date(), sec=Math.max(0,(now-d)/1000);
+  if(sec<60) return "just now";
+  if(sec<3600) return Math.floor(sec/60)+" min ago";
+  if(sec<86400) return Math.floor(sec/3600)+" h ago";
+  if(sec<2592000) return Math.floor(sec/86400)+" d ago";
+  if(sec<31536000) return Math.floor(sec/2592000)+" mo ago";
+  return Math.floor(sec/31536000)+" y ago";
+}
+
+function createMarker(trace){
+  const el=document.createElement("div");
+  el.className="trace-marker";
+  if(trace._hot) el.classList.add("hot");
+  if(trace._lighthouse) el.classList.add("lighthouse");
+
+  const icon=L.divIcon({className:"",html:el.outerHTML,iconSize:[20,20],iconAnchor:[10,10]});
+  const marker=L.marker([trace.lat,trace.lng],{icon});
+  marker.on("click",()=>openTrace(trace.id));
+  marker.addTo(map);
+  markers.set(trace.id,marker);
+}
+
+function renderMarkers(){
+  markers.forEach(m=>m.remove());
+  markers.clear();
+
+  // Relative visibility: messages in the current demo with richer text are gently emphasized.
+  const sorted=[...traces].sort((a,b)=>(String(b.text).length-String(a.text).length));
+  sorted.forEach((trace,i)=>{
+    trace._hot = i<2;
+    trace._lighthouse = i===0 && traces.length>2;
+    createMarker(trace);
+  });
+  $("trace-count").textContent="TRACES: "+traces.length;
+}
+
+function fitWorld(){
+  map.setView(CONFIG.DEFAULT_CENTER,CONFIG.DEFAULT_ZOOM);
+  saveMap();
+}
+
+function saveMap(){
+  try{
+    localStorage.setItem("j95_map",JSON.stringify({
+      center:map.getCenter(),zoom:map.getZoom()
+    }));
+  }catch(e){}
+}
+
+function restoreMap(){
+  try{
+    const raw=localStorage.getItem("j95_map");
+    if(raw){
+      const x=JSON.parse(raw);
+      if(x.center && Number.isFinite(x.zoom)) return map.setView(x.center,x.zoom);
+    }
+  }catch(e){}
+  fitWorld();
+}
+
+function updateHUD(){
+  const c=map.getCenter();
+  $("location-line").textContent=
+    "LOCATION: "+c.lat.toFixed(2)+" / "+c.lng.toFixed(2);
+}
+
+function openWindow(id){
+  const el=$(id);
+  if(!el)return;
+  el.classList.remove("hidden");
+  el.style.zIndex=++zCounter;
+  beep(900);
+  updateTasks();
+}
+
+function closeWindow(id){
+  const el=$(id);
+  if(el) el.classList.add("hidden");
+  updateTasks();
+}
+
+function updateTasks(){
+  const box=$("task-buttons");box.innerHTML="";
+  document.querySelectorAll(".window[data-window]").forEach(w=>{
+    if(w.classList.contains("hidden"))return;
+    const b=document.createElement("button");
+    b.className="task-btn";
+    b.textContent=w.querySelector(".title")?.textContent||"WINDOW";
+    b.onclick=()=>{w.style.zIndex=++zCounter};
+    box.appendChild(b);
+  });
+}
+
+function openTrace(id){
+  const trace=traces.find(t=>String(t.id)===String(id));
+  if(!trace)return;
+  selectedTrace=trace;
+  $("trace-text").textContent=trace.text;
+  $("trace-meta").textContent=
+    "TRACE ID: "+trace.id+"  |  "+relativeDate(trace.created_at)+
+    "  |  "+Number(trace.lat).toFixed(3)+", "+Number(trace.lng).toFixed(3);
+  $("trace-nearby").textContent="The map is the conversation. There is no reply button.";
+  openWindow("trace-window");
+  try{
+    const seen=JSON.parse(localStorage.getItem("j95_seen")||"[]");
+    if(!seen.includes(String(trace.id))) seen.push(String(trace.id));
+    localStorage.setItem("j95_seen",JSON.stringify(seen.slice(-300)));
+  }catch(e){}
+}
+
+function chooseComposeLocation(lat,lng){
+  composeLocation={lat:Number(lat),lng:Number(lng)};
+  $("compose-status").textContent=
+    "LOCATION: "+composeLocation.lat.toFixed(4)+" / "+composeLocation.lng.toFixed(4);
+  openWindow("compose");
+}
+
+function randomTrace(){
+  if(!traces.length){showToast("NO TRACE FOUND.");return}
+  const trace=traces[Math.floor(Math.random()*traces.length)];
+  map.flyTo([trace.lat,trace.lng],Math.max(map.getZoom(),5),{duration:1.2});
+  setTimeout(()=>openTrace(trace.id),850);
+  $("random-result").textContent="Destination selected: "+trace.lat.toFixed(3)+" / "+trace.lng.toFixed(3);
+}
+
+function randomQuietPlace(){
+  const lat=(Math.random()*130)-65;
+  const lng=(Math.random()*360)-180;
+  map.flyTo([lat,lng],4,{duration:1.2});
+  $("random-result").textContent=
+    "A quiet point has been chosen. There may be nothing here yet. You could be first.";
+  showToast("YOU COULD BE FIRST.");
+}
+
+function findLighthouse(){
+  const lighthouse=traces.find(t=>t._lighthouse) || traces[0];
+  if(!lighthouse){showToast("NO LIGHTHOUSE YET.");return}
+  map.flyTo([lighthouse.lat,lighthouse.lng],Math.max(map.getZoom(),5),{duration:1.2});
+  setTimeout(()=>openTrace(lighthouse.id),850);
+}
+
+function requestNearMe(){
+  if(!navigator.geolocation){
+    showToast("YOUR BROWSER DOES NOT PROVIDE LOCATION.");
+    return;
+  }
+  showToast("ASKING THE BROWSER FOR YOUR LOCATION...");
+  navigator.geolocation.getCurrentPosition(
+    pos=>{
+      const {latitude,longitude}=pos.coords;
+      map.flyTo([latitude,longitude],9,{duration:1.2});
+      showToast("CENTERED ON YOUR LOCATION. LOCATION WAS NOT SAVED BY THIS FRONTEND.");
+    },
+    ()=>showToast("LOCATION ACCESS WAS DECLINED.")
+  );
+}
+
+function setMapVisible(visible){
+  const mapEl=$("map"), scan=$("scanlines");
+  mapEl.style.display=visible?"block":"none";
+  scan.style.display=visible?"block":"none";
+  $("map-toggle-btn").textContent="MAP: "+(visible?"ON":"OFF");
+  localStorage.setItem("j95_map_visible",visible?"1":"0");
+  if(visible) setTimeout(()=>map.invalidateSize(),60);
+  showToast(visible?"MAP ENABLED.":"MAP HIDDEN — WINDOWS REMAIN AVAILABLE.");
+}
+
+function restoreMapVisibility(){
+  setMapVisible(localStorage.getItem("j95_map_visible")!=="0");
+}
+
+async function loadTraces(){
+  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
+    traces=DEMO_TRACES.map(x=>({...x}));
+    renderMarkers();
+    return;
+  }
+
+  try{
+    const r=await fetch(CONFIG.API_URL+"?action=messages",{method:"GET"});
+    const data=await r.json();
+    traces=Array.isArray(data)?data:(data.messages||[]);
+    renderMarkers();
+  }catch(e){
+    traces=DEMO_TRACES.map(x=>({...x}));
+    renderMarkers();
+    showToast("SERVER UNAVAILABLE — DEMO MAP LOADED.");
+  }
+}
+
+async function publishTrace(){
+  const text=$("message").value.trim();
+  if(!text){showToast("WRITE SOMETHING FIRST.");return}
+  if(text.length>CONFIG.MAX_MESSAGE_LENGTH){showToast("MESSAGE TOO LONG.");return}
+  if(!composeLocation){showToast("CHOOSE A LOCATION FIRST.");return}
+
+  const now=Date.now();
+  if(now-lastPostAt<CONFIG.POST_COOLDOWN_MS){
+    const left=Math.ceil((CONFIG.POST_COOLDOWN_MS-(now-lastPostAt))/1000);
+    showToast("PLEASE WAIT "+left+"s BEFORE LEAVING ANOTHER TRACE.");
+    return;
+  }
+
+  const payload={
+    text,
+    lat:composeLocation.lat,
+    lng:composeLocation.lng,
+    reason:$("reason").value,
+    created_at:new Date().toISOString()
+  };
+
+  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
+    payload.id="local-"+Date.now();
+    traces.push(payload);
+    renderMarkers();
+    lastPostAt=now;
+    $("message").value="";
+    $("reason").value="";
+    $("char-count").textContent="0";
+    closeWindow("compose");
+    map.flyTo([payload.lat,payload.lng],Math.max(map.getZoom(),5),{duration:1});
+    setTimeout(()=>openTrace(payload.id),800);
+    showToast("TRACE LEFT. IT NOW BELONGS TO THE OCEAN.");
+    return;
+  }
+
+  try{
+    const r=await fetch(CONFIG.API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"message",...payload})
+    });
+    const data=await r.json();
+    if(!data.ok) throw new Error(data.error||"publish failed");
+    lastPostAt=now;
+    $("message").value="";
+    $("reason").value="";
+    $("char-count").textContent="0";
+    closeWindow("compose");
+    await loadTraces();
+    showToast("TRACE LEFT.");
+  }catch(e){
+    showToast("COULD NOT SAVE THE TRACE.");
+  }
+}
+
+async function sendReport(){
+  if(!selectedTrace)return;
+  const note=$("report-note").value.trim();
+  const payload={
+    action:"report",
+    message_id:selectedTrace.id,
+    reason:$("report-reason").value,
+    note
+  };
+
+  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
+    $("report-note").value="";
+    closeWindow("report");
+    showToast("REPORT RECORDED FOR THIS DEMO.");
+    return;
+  }
+
+  try{
+    const r=await fetch(CONFIG.API_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)
+    });
+    const data=await r.json();
+    if(!data.ok)throw new Error();
+    $("report-note").value="";
+    closeWindow("report");
+    showToast("REPORT SENT.");
+  }catch(e){showToast("REPORT COULD NOT BE SENT.");}
+}
+
+/* ---------- DRAGGING: POINTER EVENTS, DESKTOP + MOBILE ---------- */
+function makeDraggable(win){
+  const handle=win.querySelector(".drag-handle");
+  let dragging=false,startX=0,startY=0,startL=0,startT=0;
+
+  handle.addEventListener("pointerdown",e=>{
+    if(e.target.closest(".win-btn"))return;
+    dragging=true;
+    win.style.zIndex=++zCounter;
+    const rect=win.getBoundingClientRect();
+    startX=e.clientX;startY=e.clientY;startL=rect.left;startT=rect.top;
+    handle.setPointerCapture?.(e.pointerId);
+  });
+  handle.addEventListener("pointermove",e=>{
+    if(!dragging)return;
+    const w=win.offsetWidth,h=win.offsetHeight;
+    let l=startL+(e.clientX-startX), t=startT+(e.clientY-startY);
+    const maxL=Math.max(4,window.innerWidth-w-4);
+    const maxT=Math.max(4,window.innerHeight-h-48);
+    l=Math.min(Math.max(4,l),maxL);t=Math.min(Math.max(4,t),maxT);
+    win.style.left=l+"px";win.style.top=t+"px";win.style.transform="none";
+  });
+  handle.addEventListener("pointerup",()=>dragging=false);
+  handle.addEventListener("pointercancel",()=>dragging=false);
+}
+
+/* ---------- CLOCK ---------- */
+function tickClock(){
+  const d=new Date();
+  $("clock").textContent=d.toLocaleTimeString([],{
+    hour:"2-digit",minute:"2-digit",hour12:false
+  });
+}
+setInterval(tickClock,1000);tickClock();
+
+/* ---------- EVENTS ---------- */
+document.querySelectorAll("[data-open]").forEach(el=>{
+  el.addEventListener("click",()=>{
+    openWindow(el.dataset.open);
+    $("start-menu").classList.add("hidden");
+  });
+});
+
+document.querySelectorAll(".close-window").forEach(b=>{
+  b.addEventListener("click",()=>{
+    const w=b.closest(".window");
+    closeWindow(w.id);
+  });
+});
+
+document.querySelectorAll(".window").forEach(makeDraggable);
+
+$("start-button").onclick=()=>{
+  $("start-menu").classList.toggle("hidden");beep(600);
+};
+$("menu-close").onclick=()=>$("start-menu").classList.add("hidden");
+
+$("enter-world").onclick=()=>{
+  closeWindow("welcome");
+  localStorage.setItem("j95_seen_welcome","1");
+};
+$("open-protocol").onclick=()=>{
+  closeWindow("welcome");openWindow("help");
+};
+$("skip-boot").onclick=finishBoot;
+
+$("message").addEventListener("input",()=>{
+  $("char-count").textContent=$("message").value.length;
+});
+$("publish").onclick=publishTrace;
+$("use-map-location").onclick=()=>{
+  if(composeLocation){
+    showToast("CURRENT LOCATION ALREADY SELECTED.");
+  }else{
+    showToast("CLICK ANYWHERE ON THE MAP TO CHOOSE A PLACE.");
+  }
+};
+$("report-open").onclick=()=>openWindow("report");
+$("report-cancel").onclick=()=>closeWindow("report");
+$("report-send").onclick=sendReport;
+$("reply-nearby").onclick=()=>{
+  if(selectedTrace) composeLocation={lat:selectedTrace.lat+0.001,lng:selectedTrace.lng+0.001};
+  openWindow("compose");
+  $("compose-status").textContent="LOCATION: near the trace you were reading.";
+};
+$("go-nearby").onclick=()=>{
+  if(!selectedTrace)return;
+  closeWindow("trace-window");
+  map.flyTo([selectedTrace.lat,selectedTrace.lng],Math.max(map.getZoom(),8),{duration:1});
+};
+
+$("random-btn").onclick=()=>{openWindow("random-window");randomTrace()};
+$("random-trace").onclick=randomTrace;
+$("empty-place").onclick=randomQuietPlace;
+$("lighthouse-btn").onclick=findLighthouse;
+$("near-btn").onclick=requestNearMe;
+$("center-world-btn").onclick=fitWorld;
+$("map-toggle-btn").onclick=()=>setMapVisible($("map").style.display==="none");
+
+$("sound-toggle").onclick=()=>{
+  soundOn=!soundOn;
+  $("sound-toggle").textContent="95 STATIC: "+(soundOn?"ON":"OFF");
+  if(soundOn)beep(500,.08);
+};
+$("reset-map").onclick=fitWorld;
+$("language").onchange=e=>{
+  localStorage.setItem("j95_lang",e.target.value);
+  showToast("LANGUAGE SAVED. FULL UI TRANSLATION CAN BE CONNECTED NEXT.");
+};
+
+/* ---------- MAP ---------- */
+map=L.map("map",{zoomControl:false,worldCopyJump:true,minZoom:2,maxZoom:18});
+L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{
+  maxZoom:19,
+  attribution:"© OpenStreetMap contributors"
+}).addTo(map);
+
+map.on("click",e=>{
+  chooseComposeLocation(e.latlng.lat,e.latlng.lng);
+});
+map.on("moveend zoomend",()=>{
+  updateHUD();saveMap();
+});
+restoreMap();
+restoreMapVisibility();
+loadTraces();
+
+/* ---------- BOOT ---------- */
+function finishBoot(){
+  $("boot").style.transition="opacity .35s";
+  $("boot").style.opacity="0";
+  setTimeout(()=>$("boot").remove(),360);
+  try{
+    const seen=localStorage.getItem("j95_seen_welcome");
+    if(!seen)setTimeout(()=>openWindow("welcome"),450);
+  }catch(e){setTimeout(()=>openWindow("welcome"),450)}
+}
+setTimeout(finishBoot,3200);
+
+updateTasks();
+</script>
+
+<!--
+  ============================================================
+  BACKEND CONTRACT — FOR THE NEXT GOOGLE SHEETS / APPS SCRIPT STEP
+
+  GET  API_URL?action=messages
+  -> { "messages": [
+       { "id":"...", "lat":20, "lng":-5, "text":"...",
+         "created_at":"ISO_DATE", "reason":"..." }
+     ] }
+
+  POST API_URL
+  body:
+  { "action":"message", "lat":..., "lng":..., "text":"...", "reason":"..." }
+
+  POST API_URL
+  body:
+  { "action":"report", "message_id":"...", "reason":"...", "note":"..." }
+
+  REPORT FLOW:
+  Apps Script stores the report in a Reports sheet and sends
+  a notification email to the project owner's address.
+  The email is configured server-side, never exposed in this page.
+
+  IMPORTANT:
+  - Do NOT expose the Google Sheet itself in this page.
+  - Apps Script will be the public gateway.
+  - Server-side validation/rate limiting should be added there.
+  - The frontend is configured for the live Apps Script backend (DEMO_MODE=false).
+  ============================================================
+-->
+
+<footer style="position:fixed;right:5px;bottom:43px;z-index:250;color:#fff;font:10px 'Courier New',monospace;text-shadow:1px 1px #000;pointer-events:none">
+  Copyright :mohamed005cheikh@gmail.com | by MC88
+</footer>
+</body>
+    </html>
