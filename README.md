@@ -1,405 +1,370 @@
-# J'étais là 95
+# 🌊 كنتُ هنا 95
 
-> **A living museum of anonymous words, floating over Earth.**
+> **وماذا لو لم يكن علينا، ولو لمرة واحدة، أن نُظهر شيئًا عن أنفسنا؟**
 
-**J'étais là 95** is an anonymous, map-based digital space inspired by the atmosphere of **Windows 95**.
+يوجد اليوم آلاف الأماكن على الإنترنت التي نستطيع فيها أن نُظهر من نحن.
 
-It is not a social network.  
-It is not a feed.  
-It is not a platform for building an identity.
+وجوهنا.  
+أسماءنا.  
+حياتنا.  
+نجاحاتنا.  
+آراءنا.  
+رحلاتنا.  
+لحظاتنا السعيدة.
 
-It is simply a place where someone can leave a few words behind.
+ثم هناك **J'étais là 95**.
 
----
+مكان يمكننا فيه أن نفعل العكس تمامًا.
 
-## The idea
+هنا، لا تحتاج إلى أن تعرّف بنفسك.
 
-One day, someone may open the map and discover a sentence left by a stranger.
-
-Another person may come later and leave something nearby.
-
-There is no profile to follow, no name to remember, and no algorithm deciding what deserves attention.
-
-The map becomes an **ocean of human traces**.
-
-Every pin is a small proof that someone was there, thought something, felt something, remembered something, or simply wanted to leave a sentence behind.
-
-The question behind the project is simple:
-
-> **What do anonymous humans do when they are given a place to leave words freely, without having to become someone?**
+يمكنك ببساطة أن تترك بعض الكلمات.
 
 ---
 
-## The philosophy
+## 🕯️ لماذا وُجد هذا المكان؟
 
-### No identity
+أنشأت **J'étais là 95** انطلاقًا من فكرة بسيطة إلى حدّ ما:
 
-There are no:
+**ماذا سيبقى من كلماتنا لو أزلنا كل ما يجبرنا عادةً على استعراض أنفسنا أمام الآخرين؟**
 
-- usernames
-- profiles
-- avatars
-- followers
-- reputation scores
-- karma
-- public identities
-- social rankings
+لا ملف شخصي.  
+لا اسم تحاول بناءه.  
+لا عدد متابعين.  
+لا إعجابات.  
+لا سمعة.  
+لا ترتيب.  
+لا سباق نحو لفت الانتباه.
 
-The project is interested in **words, not identities**.
+فقط بشر، في مكان ما على هذه الأرض، يتركون أحيانًا بضع كلمات.
 
-A message does not need a person attached to it to have meaning.
-
-### No feed
-
-There is no infinite scrolling feed designed to keep people online.
-
-The map is the interface.
-
-You explore places.  
-You discover traces.  
-You decide where to look.
-
-### No likes
-
-There is no like button.
-
-Instead, if a message affects you, you can leave another trace nearby.
-
-That trace can become a kind of geographical response.
-
-Someone may discover it later without ever knowing who wrote the original message.
-
-### No algorithmic popularity
-
-The project does not try to determine which human thought is the most important.
-
-A profound sentence and a completely ordinary sentence can coexist on the same map.
-
-The visitor decides what matters.
-
-### No expiration
-
-Traces do not automatically disappear after 30 days.
-
-The ocean should accumulate memories.
-
-Content may be manually moderated and cleaned when necessary, but there is no automatic countdown that destroys old traces simply because they are old.
+كنت أريد أن أصنع مساحة تكون فيها **الكلمات أهم من صاحبها**.
 
 ---
 
-## Why Windows 95?
+## 🌍 محيط من الكلمات
 
-The Windows 95 aesthetic is intentional.
+تخيلوا الأرض كمحيط هائل.
 
-It represents a different relationship with computers:
+لكن بدلًا من أن يكون هذا المحيط مملوءًا بالماء، فهو مملوء بآثار بشرية.
 
-- simple interfaces
-- visible controls
-- small windows
-- gray surfaces
-- blue title bars
-- buttons that look like buttons
-- a feeling that software was a place rather than an endless stream
+فكرة.
 
-The visual language is nostalgic, but the idea is contemporary.
+ذكرى.
 
-**Old interface. New experiment.**
+جملة.
 
-The project uses the retro aesthetic as a frame for something much more human and much less technological:
+سؤال.
 
-**words left by strangers.**
+ندم.
 
----
+تشجيع.
 
-## The map
+شيء ربما لم يستطع شخص ما أن يقوله بصوت عالٍ من قبل.
 
-The Earth is the museum.
+لكل أثر مكان.
 
-The map uses a quiet grayscale presentation so that the words remain the focus.
+وهكذا، في مكان ما من العالم، ربما كتب شخص ما بضع كلمات في اللحظة التي تقرأون فيها كلماتي.
 
-A pin represents a trace.
+ومن المحتمل أنكم لن تعرفوا أبدًا من كان.
 
-There is no requirement for the trace to be important, profound, beautiful, or clever.
-
-It can simply say:
-
-> "I was here."
-
-Or anything else the writer wants to leave behind.
+وهذا تحديدًا هو ما يهمني.
 
 ---
 
-## A different kind of reply
+## 🧭 هذا ليس موقعًا اجتماعيًا آخر
 
-Traditional social platforms turn replies into conversations attached to profiles.
+**J'étais là 95 لم يُصمم ليصبح شبكة اجتماعية أخرى.**
 
-Here, geography becomes the thread.
+لا يوجد ملف شخصي يحتاج إلى المحافظة عليه.
 
-If you discover a message you want to answer, you can leave your own message somewhere nearby.
+لا متابعون.
 
-The answer does not have to mention the original author.
+لا إعجابات.
 
-It may simply exist beside the original trace.
+لا موجز أخبار مصمم لإبقائك أطول وقت ممكن.
 
-Someone, someday, may discover both.
+لا إشعارات تدفعك إلى العودة.
 
-This creates a strange form of communication between people who may never know each other.
+ولا آلية مصممة لتحويل انتباهك إلى سلعة.
 
----
+كنت أريد شيئًا أكثر هدوءًا بكثير.
 
-## Privacy
+مكانًا تزوره.
 
-The project intentionally avoids building a traditional identity system.
+تقرأ فيه.
 
-There are:
+تكتب أحيانًا.
 
-- no accounts
-- no public profiles
-- no email registration
-- no usernames
-- no follower system
-- no public identity attached to a trace
-- no frontend analytics or fingerprinting by the project
-
-The **Near Me** feature only requests browser geolocation when the visitor explicitly chooses to use it.
-
-Local preferences such as map position, language, sound, and map visibility can be stored locally in the browser.
-
-### An important distinction
-
-The project does not claim that internet infrastructure can provide absolute anonymity.
-
-Hosting providers, browsers, networks, and other infrastructure may create technical logs outside the project's own identity system.
-
-The goal is therefore not to promise impossible anonymity.
-
-The goal is to **avoid collecting and displaying identity as part of the experience**.
+ثم ترحل.
 
 ---
 
-## Moderation
+## 🫥 ماذا يفعل غياب الاسم بكلماتنا؟
 
-An anonymous space needs moderation.
+ربما يكون هذا أحد أهم أسئلة هذه التجربة.
 
-Visitors can report a trace.
+عندما لا يعرف أحد أن ما كتبته هو أنت…
 
-Reports are intended for manual review.
+هل تكتب بطريقة مختلفة؟
 
-The project deliberately does not try to replace human judgment with a popularity system or an automated social reputation mechanism.
+هل تصبح أكثر صدقًا؟
 
-The maintainer can review the database and remove inappropriate content manually.
+أكثر غرابة؟
 
-This is part of the experiment:
+أعمق؟
 
-> Can an anonymous place remain human without becoming a social network?
+أكثر حرية؟
 
----
+أم أن شيئًا لا يتغير؟
 
-## Current technology
+لا أعرف الإجابة بعد.
 
-The project is intentionally simple.
+ولا أريد أن أحددها مسبقًا.
 
-### Frontend
-
-- HTML
-- CSS
-- JavaScript
-- Leaflet
-- OpenStreetMap
-- Windows 95-inspired UI
-
-### Backend
-
-The project migrated from an early Google Sheets / Google Apps Script prototype to **Firebase / Cloud Firestore**.
-
-Firestore currently stores traces and reports.
-
-Anonymous Firebase authentication is used so visitors can interact with the database without creating accounts.
-
-### Hosting
-
-The project is intended to be hosted through **GitHub Pages**.
+أفضل أن أترك الآثار هي التي تتحدث.
 
 ---
 
-## From prototype to Firebase
+## 🧪 تجربة صغيرة مع الإنسان
 
-The project originally experimented with Google Sheets and Google Apps Script as a lightweight backend.
+**J'étais là 95 هي أيضًا تجربة اجتماعية صغيرة.**
 
-That approach exposed practical problems around browser form encoding and JSON handling.
+ليست تجربة علمية.
 
-The backend was later migrated to Firebase.
+وليست دراسة تدّعي تفسير الإنسان.
 
-The migration keeps the same core philosophy while providing a more appropriate database for the map.
+إنها مجرد ملاحظة.
 
-The important lesson from the prototype was:
+أريد أن أرى ماذا يفعل الناس عندما نمنحهم مساحة صغيرة في العالم، من دون أن نطلب منهم بناء هوية حولها.
 
-> The technology should serve the experiment, not become the experiment.
+ماذا سيكتبون؟
 
----
+هل سيتحدثون عن أنفسهم؟
 
-## Main features
+عن الآخرين؟
 
-- 🗺️ Interactive world map
-- 📍 Anonymous geographical traces
-- 🎲 Random Trace
-- 🔦 Lighthouse
-- 📍 Near Me
-- 🌍 World exploration
-- 📝 Leave a Trace
-- ❓ Help / Protocol
-- ℹ️ About
-- ⚙️ Settings
-- 🪟 Windows 95-inspired interface
-- 📱 Responsive mobile experience
-- 🔊 Optional retro static sound
-- 🌑 Map ON/OFF mode
-- 🕯️ Quiet places where a visitor can become the first trace
-- 🚨 Trace reporting
-- 🔐 No user account system
-- 📊 No likes, followers, karma, or reputation
+عن الحب؟
 
----
+عن الوحدة؟
 
-## The "Quiet Place"
+عن أحلامهم؟
 
-An empty location is not an error.
+عن مخاوفهم؟
 
-It is an invitation.
+عن أشياء عبثية تمامًا؟
 
-When there are no traces nearby, the project can present the idea of a quiet place:
+ربما ستكون بعض الآثار جميلة جدًا.
 
-> **You could be the first.**
+وأخرى عادية.
 
-This turns emptiness into part of the experience.
+وأخرى غير مفهومة.
+
+وهذا جيد تمامًا.
+
+لأن المكان الإنساني الحقيقي لا يجب بالضرورة أن يكون مرتبًا بشكل كامل.
 
 ---
 
-## What this project is not
+## 🗺️ الخريطة كذاكرة
 
-J'étais là 95 is deliberately **not**:
+الخريطة ليست موجودة فقط لكي تساعدك على العثور على الآثار.
 
-- Facebook
-- Instagram
-- X
-- Reddit
-- a dating application
-- a chat application
-- a personal diary platform
-- a popularity contest
-- a content recommendation engine
+إنها تحوّل الكلمات إلى جغرافيا.
 
-It does not try to maximize engagement.
+تصبح الجملة مكانًا.
 
-It tries to create a place worth visiting.
+وتصبح الذكرى إحداثية.
 
----
+ويمكن لفكرة أن تظهر في مكان ما داخل مدينة، أو في صحراء، أو على جانب طريق، أو بالقرب من بحر، أو في مكان لم يكتب فيه أحد شيئًا من قبل.
 
-## The experiment
+وبمرور الوقت، تتحول الخريطة إلى نوع من **الذاكرة الجماعية المجهولة**.
 
-The project is ultimately a social experiment.
+ليست ذاكرة شخص واحد.
 
-Give people:
+ولا ذاكرة شعب واحد.
 
-1. a map,
-2. anonymity,
-3. a blank space,
-4. a few words,
-5. no audience they can build,
-6. no reputation they can gain,
-
-and see what happens.
-
-Maybe they will write jokes.
-
-Maybe memories.
-
-Maybe confessions.
-
-Maybe poetry.
-
-Maybe coordinates to somewhere important.
-
-Maybe nothing at all.
-
-All of it becomes part of the museum.
+بل ذاكرة أشخاص مرّوا من هنا ببساطة.
 
 ---
 
-## A living museum
+## 🕯️ الأماكن الهادئة
 
-A traditional museum preserves objects.
+ثم هناك الأماكن التي لم يترك فيها أحد شيئًا بعد.
 
-This project preserves **moments of anonymous expression**.
+هذه الأماكن تهمني بشكل خاص.
 
-The museum has no walls.
+لأن المكان الفارغ ليس بالضرورة مكانًا بلا قصة.
 
-Its rooms are cities, roads, forests, deserts, oceans, neighborhoods and places that may never have visitors again.
+قد يكون فقط في انتظارها.
 
-Someone leaves a sentence.
+ربما يمر شخص ما هناك يومًا ما ويترك أول أثر له.
 
-The sentence waits.
+جملة صغيرة.
 
-Another person finds it.
+بضع كلمات.
 
-And for a moment, two strangers exist in the same place without ever meeting.
-
----
-
-## Project principles
-
-The project tries to follow a few simple rules:
-
-> **Words before identities.**
-
-> **Discovery before recommendation.**
-
-> **Place before profile.**
-
-> **Anonymity before reputation.**
-
-> **Human judgment before popularity.**
-
-> **A quiet experience before endless engagement.**
+وفجأة، لن يعود ذلك المكان صامتًا تمامًا.
 
 ---
 
-## Status
+## 💬 وماذا لو أراد شخص أن يجيب؟
 
-The project is currently functional with Firebase and Firestore.
+لا يوجد زر «الرد».
 
-The core experience works:
+لا توجد محادثة.
 
-- traces can be created,
-- traces appear as map pins,
-- traces are stored in Firestore,
-- the database can be manually managed by the maintainer.
+ولا سلسلة تعليقات.
 
-Further improvements are tracked separately in the project's GitHub Issues.
+إذا لمستك إحدى الآثار وأردت أن تجيب عنها، يمكنك ببساطة أن تترك **أثرًا آخر بالقرب منها**.
 
----
+وربما يستطيع شخص ما، في وقت لاحق، أن يفهم أن كلمةً ما التقت بكلمة أخرى.
 
-## Future direction
+إجابة بلا إشعار.
 
-The project may evolve, but its philosophy should remain stable.
+بلا ملف شخصي.
 
-Possible future work includes:
+وبلا إلزام.
 
-- stronger anti-spam protection
-- improved moderation workflow
-- email notifications for reports
-- better mobile interaction
-- performance improvements for large numbers of traces
-- additional retro interface details
-- accessibility improvements
-- careful privacy hardening
-
-New features should be evaluated against one question:
-
-> **Does this make the museum better, or does it turn the museum into another social network?**
+محادثة لا تحتاج حتى إلى أن تعرف من يتحدث مع من.
 
 ---
 
-## Copyright
+## 🧘 مساحة صغيرة للابتعاد عن ضجيج الشبكات
+
+لا أدّعي أن **J'étais là 95** سيحل علاقتنا بالشبكات الاجتماعية.
+
+لكن تعجبني فكرة أن يكون الإنترنت أيضًا قادرًا على تقديم أماكن لا تطلب منك شيئًا.
+
+لا حاجة إلى النشر باستمرار.
+
+ولا إلى بناء جمهور.
+
+ولا إلى البقاء متصلًا.
+
+ولا إلى التحقق من عدد الأشخاص الذين تفاعلوا معك.
+
+يمكنك ببساطة أن تأتي إلى هنا، تقرأ بعض الآثار، وتترك أثرك إذا أردت، ثم تغلق النافذة.
+
+ربما يكون هذا شكلًا صغيرًا من **Social Media Detox**.
+
+مكانًا هادئًا موضوعًا في مكان ما وسط الضجيج.
+
+---
+
+## 🪟 لماذا «95»؟
+
+لأن **Windows 95** يمثل بالنسبة لي زمنًا كانت فيه الحوسبة تحمل شيئًا مختلفًا جدًا.
+
+كانت الواجهات بسيطة.
+
+وكانت النوافذ واضحة.
+
+وكانت الأزرار تبدو وكأنها أشياء ملموسة.
+
+كان كل شيء يبدو أبطأ، وأكثر مباشرة، وأحيانًا أكثر براءة.
+
+اخترت هذه الجمالية عن قصد.
+
+لكن خلف هذه الواجهة القديمة توجد فكرة معاصرة جدًا:
+
+**هل ما زال بإمكاننا أن نصنع مكانًا على الإنترنت لا يحاول الاستيلاء على انتباهنا؟**
+
+---
+
+## 🧠 ماذا أتمنى أن أرى؟
+
+لا أعرف ماذا سيصبح **J'étais là 95**.
+
+وأفضّل ألا أحدد ذلك كثيرًا.
+
+ربما تمتلئ الخريطة.
+
+وربما تبقى شبه فارغة.
+
+ربما يكتب الناس أشياء عميقة.
+
+وربما يكتبون ببساطة:
+
+> « مررت من هنا. »
+
+حتى هذه الجملة تكفيني.
+
+لأن المشروع في النهاية لا يحتاج إلى أن يصبح ضخمًا حتى يكون له معنى.
+
+يكفي أن يجد شخص واحد هنا مكانًا استطاع فيه أن يكتب شيئًا أراد أن يتركه وراءه.
+
+---
+
+## 👁️ رؤيتي — MC88
+
+لم أرد أن أصنع آلة لجذب الانتباه.
+
+أردت أن أصنع مكانًا.
+
+مكانًا صغيرًا على الإنترنت يمكننا فيه أن نتذكر أنه قبل الملفات الشخصية، والإحصائيات، والخوارزميات، **كان الإنترنت أيضًا مساحة يستطيع فيها غرباء أن يتركوا شيئًا خلفهم ببساطة.**
+
+لا أعرف إن كانت هذه الفكرة أفضل من الشبكات الاجتماعية.
+
+وهذا ليس هدفي.
+
+أريد فقط أن أقدم احتمالًا آخر.
+
+احتمالًا أكثر هدوءًا.
+
+أكثر مجهولية.
+
+وربما أكثر إنسانية.
+
+ثم أترك للزائر أن يقرر بنفسه ماذا يعتقد بشأنه.
+
+— **MC88**
+
+---
+
+## 🌊 فكرة أخيرة
+
+نحن نقضي وقتًا طويلًا نحاول أن نترك أثرًا يدل علينا.
+
+صورة.
+
+تعليق.
+
+ملف شخصي.
+
+إنجاز.
+
+ذكرى.
+
+لكنني أحيانًا أتساءل:
+
+**ماذا سيحدث لو استطعنا أن نترك أثرًا دون أن نحتاج إلى أن يُعرف أننا صاحبه؟**
+
+أثر لا يجلب لنا شيئًا.
+
+ولا يبني لنا سمعة.
+
+ولا يحاول أن يصبح منتشرًا.
+
+أثر موجود فقط لأن شخصًا ما، في لحظة معينة، **كان هنا**.
+
+وربما حينها لا يكون السؤال الحقيقي:
+
+> « من أنت؟ »
+
+بل:
+
+> **« ماذا كنت ستكتب لو لم يكن بإمكان أحد أن يعرف أن هذا الأثر لك؟ »**
+
+---
+
+### 🌊 J'étais là 95
+
+**مكان لترك الكلمات في العالم.**
+
+ليس لكي تصبح شخصًا.
+
+فقط لأنك كنت هنا.
 
 **Copyright :mohamed005cheikh@gmail.com | by MC88**
+
