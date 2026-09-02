@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#008080">
@@ -513,25 +514,37 @@ textarea{resize:vertical;min-height:150px}
 <div id="toast" class="hidden"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
+<script type="module">
 /* ============================================================
    J'ÉTAIS LÀ 95 — FRONTEND 2.0
-   Connected to Google Sheets + Google Apps Script backend.
+   Connected to Firebase Authentication + Cloud Firestore.
    Ready for GitHub Pages.
-
    ============================================================ */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAc3Er7v_Xg7OKcICiiRJvJ7v3pm6p54WA",
+  authDomain: "jetais-la-95.firebaseapp.com",
+  projectId: "jetais-la-95",
+  storageBucket: "jetais-la-95.firebasestorage.app",
+  messagingSenderId: "306496165819",
+  appId: "1:306496165819:web:7133663895d34c75a3969e"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
+const firebaseReady = signInAnonymously(auth);
 
 const CONFIG = {
   DEMO_MODE: false,
-  API_URL: "https://script.google.com/macros/s/AKfycbywoyR98AlhLtGUynntsJT70sN3QzL0HNaPj5Xj1dJRDbxbB827Dg-1a7xsG43UDkc3pg/exec",
-
-  // Frontend limits; the server enforces these limits too.
   MAX_MESSAGE_LENGTH: 5000,
   MAX_REPORT_LENGTH: 1000,
-  POST_COOLDOWN_MS: 30000,
-
-  DEFAULT_CENTER: [20, 0],
-  DEFAULT_ZOOM: 2
+  MAX_TRACES_TO_LOAD: 500,
+  POST_COOLDOWN_MS: 30000
 };
 
 const DEMO_TRACES = [
@@ -756,22 +769,51 @@ function restoreMapVisibility(){
 }
 
 async function loadTraces(){
-  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
+  if(CONFIG.DEMO_MODE){
     traces=DEMO_TRACES.map(x=>({...x}));
     renderMarkers();
     return;
   }
-
   try{
-    const r=await fetch(CONFIG.API_URL+"?action=messages",{method:"GET"});
-    const data=await r.json();
-    traces=Array.isArray(data)?data:(data.messages||[]);
+    await firebaseReady;
+    const q=query(collection(db,"traces"),where("status","==","visible"),limit(CONFIG.MAX_TRACES_TO_LOAD));
+    const snap=await getDocs(q);
+    traces=snap.docs.map(doc=>({id:doc.id,...doc.data()}));
+    traces.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
     renderMarkers();
   }catch(e){
-    traces=DEMO_TRACES.map(x=>({...x}));
+    console.error("J95 Firebase load error:",e);
+    traces=[];
     renderMarkers();
-    showToast("SERVER UNAVAILABLE — DEMO MAP LOADED.");
+    showToast("FIREBASE UNAVAILABLE — NO DEMO DATA USED.");
   }
+}
+
+async function saveTraceToFirebase(payload){
+  await firebaseReady;
+  const trace={
+    text:String(payload.text||"").trim(),
+    lat:Number(payload.lat),
+    lng:Number(payload.lng),
+    reason:String(payload.reason||""),
+    created_at:new Date().toISOString(),
+    status:"visible"
+  };
+  const ref=await addDoc(collection(db,"traces"),trace);
+  return {id:ref.id,...trace};
+}
+
+async function saveReportToFirebase(payload){
+  await firebaseReady;
+  const report={
+    message_id:String(payload.message_id||""),
+    reason:String(payload.reason||""),
+    note:String(payload.note||"").trim(),
+    created_at:new Date().toISOString(),
+    status:"new"
+  };
+  const ref=await addDoc(collection(db,"reports"),report);
+  return {id:ref.id,...report};
 }
 
 async function publishTrace(){
@@ -787,78 +829,52 @@ async function publishTrace(){
     return;
   }
 
-  const payload={
-    text,
-    lat:composeLocation.lat,
-    lng:composeLocation.lng,
-    reason:$("reason").value,
-    created_at:new Date().toISOString()
-  };
+  const payload={text,lat:composeLocation.lat,lng:composeLocation.lng,reason:$("reason").value};
 
-  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
+  if(CONFIG.DEMO_MODE){
     payload.id="local-"+Date.now();
-    traces.push(payload);
-    renderMarkers();
-    lastPostAt=now;
-    $("message").value="";
-    $("reason").value="";
-    $("char-count").textContent="0";
-    closeWindow("compose");
-    map.flyTo([payload.lat,payload.lng],Math.max(map.getZoom(),5),{duration:1});
+    payload.created_at=new Date().toISOString();
+    payload.status="visible";
+    traces.push(payload);renderMarkers();lastPostAt=now;
+    $("message").value="";$("reason").value="";$("char-count").textContent="0";
+    closeWindow("compose");map.flyTo([payload.lat,payload.lng],Math.max(map.getZoom(),5),{duration:1});
     setTimeout(()=>openTrace(payload.id),800);
     showToast("TRACE LEFT. IT NOW BELONGS TO THE OCEAN.");
     return;
   }
 
+  const publishBtn=$("publish");
+  publishBtn.disabled=true;publishBtn.textContent="SAVING...";
   try{
-    const r=await fetch(CONFIG.API_URL,{
-      method:"POST",
-      headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({action:"message",...payload})
-    });
-    const data=await r.json();
-    if(!data.ok) throw new Error(data.error||"publish failed");
-    lastPostAt=now;
-    $("message").value="";
-    $("reason").value="";
-    $("char-count").textContent="0";
-    closeWindow("compose");
-    await loadTraces();
-    showToast("TRACE LEFT.");
+    const saved=await saveTraceToFirebase(payload);
+    traces.push(saved);renderMarkers();lastPostAt=now;
+    $("message").value="";$("reason").value="";$("char-count").textContent="0";
+    closeWindow("compose");map.flyTo([saved.lat,saved.lng],Math.max(map.getZoom(),5),{duration:1});
+    setTimeout(()=>openTrace(saved.id),800);
+    showToast("TRACE LEFT. IT NOW BELONGS TO THE OCEAN.");
   }catch(e){
-    showToast("COULD NOT SAVE THE TRACE.");
-  }
+    console.error("J95 Firebase publish error:",e);
+    showToast("COULD NOT SAVE THE TRACE. PLEASE TRY AGAIN.");
+  }finally{publishBtn.disabled=false;publishBtn.textContent="LEAVE TRACE";}
 }
 
 async function sendReport(){
   if(!selectedTrace)return;
   const note=$("report-note").value.trim();
-  const payload={
-    action:"report",
-    message_id:selectedTrace.id,
-    reason:$("report-reason").value,
-    note
-  };
-
-  if(CONFIG.DEMO_MODE || !CONFIG.API_URL){
-    $("report-note").value="";
-    closeWindow("report");
-    showToast("REPORT RECORDED FOR THIS DEMO.");
-    return;
+  if(note.length>CONFIG.MAX_REPORT_LENGTH){showToast("REPORT NOTE TOO LONG.");return}
+  const payload={message_id:selectedTrace.id,reason:$("report-reason").value,note};
+  if(CONFIG.DEMO_MODE){
+    $("report-note").value="";closeWindow("report");showToast("REPORT RECORDED FOR THIS DEMO.");return;
   }
-
+  const reportBtn=$("report-send");
+  reportBtn.disabled=true;reportBtn.textContent="SENDING...";
   try{
-    const r=await fetch(CONFIG.API_URL,{
-      method:"POST",
-      headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify(payload)
-    });
-    const data=await r.json();
-    if(!data.ok)throw new Error();
-    $("report-note").value="";
-    closeWindow("report");
-    showToast("REPORT SENT.");
-  }catch(e){showToast("REPORT COULD NOT BE SENT.");}
+    await saveReportToFirebase(payload);
+    $("report-note").value="";closeWindow("report");showToast("REPORT SENT FOR MANUAL REVIEW.");
+  }catch(e){
+    console.error("J95 Firebase report error:",e);
+    showToast("REPORT COULD NOT BE SENT.");
+  }finally{reportBtn.disabled=false;reportBtn.textContent="SEND REPORT";}
 }
 
 /* ---------- DRAGGING: POINTER EVENTS, DESKTOP + MOBILE ---------- */
@@ -1005,32 +1021,17 @@ updateTasks();
 
 <!--
   ============================================================
-  BACKEND CONTRACT — FOR THE NEXT GOOGLE SHEETS / APPS SCRIPT STEP
+  FIREBASE BACKEND
 
-  GET  API_URL?action=messages
-  -> { "messages": [
-       { "id":"...", "lat":20, "lng":-5, "text":"...",
-         "created_at":"ISO_DATE", "reason":"..." }
-     ] }
+  Public data:
+  - traces/{documentId}
+  - reports/{documentId}
 
-  POST API_URL
-  body:
-  { "action":"message", "lat":..., "lng":..., "text":"...", "reason":"..." }
+  Authentication:
+  - Firebase Anonymous Authentication
 
-  POST API_URL
-  body:
-  { "action":"report", "message_id":"...", "reason":"...", "note":"..." }
-
-  REPORT FLOW:
-  Apps Script stores the report in a Reports sheet and sends
-  a notification email to the project owner's address.
-  The email is configured server-side, never exposed in this page.
-
-  IMPORTANT:
-  - Do NOT expose the Google Sheet itself in this page.
-  - Apps Script will be the public gateway.
-  - Server-side validation/rate limiting should be added there.
-  - The frontend is configured for the live Apps Script backend (DEMO_MODE=false).
+  The Firebase Web config is intended for the client application.
+  Do NOT place Firebase Admin SDK service-account credentials here.
   ============================================================
 -->
 
@@ -1038,4 +1039,5 @@ updateTasks();
   Copyright :mohamed005cheikh@gmail.com | by MC88
 </footer>
 </body>
-    </html>
+</html>
+
