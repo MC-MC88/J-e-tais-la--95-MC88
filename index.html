@@ -343,10 +343,10 @@ textarea{resize:vertical;min-height:150px}
     </div>
     <div class="reason-note">La position choisie sera visible sur la carte. Pour préserver l'esprit du projet, n'écris pas de données personnelles sur toi ou sur quelqu'un d'autre.</div>
     <div class="button-row">
-      <button class="retro-button" id="use-map-location">USE MAP LOCATION</button>
+      <button class="retro-button" id="use-map-location">CHOOSE ON MAP</button>
       <button class="retro-button primary" id="publish">LEAVE TRACE</button>
     </div>
-    <div class="statusbar" id="compose-status">LOCATION: click "USE MAP LOCATION" or click a place on the map.</div>
+    <div class="statusbar" id="compose-status">LOCATION: click a place on the map to choose where the trace will be left.</div>
   </div>
 </div>
 
@@ -524,6 +524,7 @@ textarea{resize:vertical;min-height:150px}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, query, where, limit } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app-check.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAc3Er7v_Xg7OKcICiiRJvJ7v3pm6p54WA",
@@ -535,16 +536,31 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
+let appCheck = null;
+if (CONFIG.RECAPTCHA_SITE_KEY) {
+  try {
+    appCheck = initializeAppCheck(firebaseApp, {
+      provider: new ReCaptchaV3Provider(CONFIG.RECAPTCHA_SITE_KEY),
+      isTokenAutoRefreshEnabled: true
+    });
+  } catch (e) {
+    console.warn("J95 App Check is not active:", e);
+  }
+}
 const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 const firebaseReady = signInAnonymously(auth);
 
 const CONFIG = {
   DEMO_MODE: false,
+  RECAPTCHA_SITE_KEY: "",
   MAX_MESSAGE_LENGTH: 5000,
   MAX_REPORT_LENGTH: 1000,
   MAX_TRACES_TO_LOAD: 500,
-  POST_COOLDOWN_MS: 30000
+  POST_COOLDOWN_MS: 30000,
+  REPORT_COOLDOWN_MS: 30000,
+  DEFAULT_CENTER: [20, 0],
+  DEFAULT_ZOOM: 2
 };
 
 const DEMO_TRACES = [
@@ -565,6 +581,7 @@ let selectedTrace = null;
 let composeLocation = null;
 let zCounter = 1100;
 let lastPostAt = 0;
+let lastReportAt = 0;
 let soundOn = false;
 let audioCtx = null;
 
@@ -640,9 +657,9 @@ function fitWorld(){
 
 function saveMap(){
   try{
-    localStorage.setItem("j95_map",JSON.stringify({
-      center:map.getCenter(),zoom:map.getZoom()
-    }));
+    if(!map)return;
+    const c=map.getCenter();
+    localStorage.setItem("j95_map",JSON.stringify({center:[c.lat,c.lng],zoom:map.getZoom()}));
   }catch(e){}
 }
 
@@ -750,7 +767,8 @@ function requestNearMe(){
       map.flyTo([latitude,longitude],9,{duration:1.2});
       showToast("CENTERED ON YOUR LOCATION. LOCATION WAS NOT SAVED BY THIS FRONTEND.");
     },
-    ()=>showToast("LOCATION ACCESS WAS DECLINED.")
+    ()=>showToast("LOCATION ACCESS WAS DECLINED OR UNAVAILABLE."),
+    {enableHighAccuracy:false,maximumAge:60000,timeout:10000}
   );
 }
 
@@ -759,7 +777,7 @@ function setMapVisible(visible){
   mapEl.style.display=visible?"block":"none";
   scan.style.display=visible?"block":"none";
   $("map-toggle-btn").textContent="MAP: "+(visible?"ON":"OFF");
-  localStorage.setItem("j95_map_visible",visible?"1":"0");
+  try{localStorage.setItem("j95_map_visible",visible?"1":"0");}catch(e){}
   if(visible) setTimeout(()=>map.invalidateSize(),60);
   showToast(visible?"MAP ENABLED.":"MAP HIDDEN — WINDOWS REMAIN AVAILABLE.");
 }
@@ -769,6 +787,7 @@ function restoreMapVisibility(){
 }
 
 async function loadTraces(){
+  $("trace-count").textContent="TRACES: LOADING...";
   if(CONFIG.DEMO_MODE){
     traces=DEMO_TRACES.map(x=>({...x}));
     renderMarkers();
@@ -805,12 +824,30 @@ async function saveTraceToFirebase(payload){
 
 async function saveReportToFirebase(payload){
   await firebaseReady;
+  const createdAt=new Date().toISOString();
+  const note=String(payload.note||"").trim();
+  const reason=String(payload.reason||"");
+  const messageId=String(payload.message_id||"");
   const report={
-    message_id:String(payload.message_id||""),
-    reason:String(payload.reason||""),
-    note:String(payload.note||"").trim(),
-    created_at:new Date().toISOString(),
-    status:"new"
+    message_id:messageId,
+    reason,
+    note,
+    created_at:createdAt,
+    status:"new",
+    to:["med2026etd@gmail.com"],
+    message:{
+      subject:"J'étais là 95 — nouveau signalement",
+      text:[
+        "Un nouveau signalement a été envoyé depuis J'étais là 95.",
+        "",
+        "Trace ID: "+messageId,
+        "Reason: "+reason,
+        "Note: "+(note||"(aucune note)"),
+        "Created: "+createdAt,
+        "",
+        "Le signalement reste enregistré dans Firestore pour revue manuelle."
+      ].join("\n")
+    }
   };
   const ref=await addDoc(collection(db,"reports"),report);
   return {id:ref.id,...report};
@@ -862,6 +899,12 @@ async function sendReport(){
   if(!selectedTrace)return;
   const note=$("report-note").value.trim();
   if(note.length>CONFIG.MAX_REPORT_LENGTH){showToast("REPORT NOTE TOO LONG.");return}
+  const now=Date.now();
+  if(now-lastReportAt<CONFIG.REPORT_COOLDOWN_MS){
+    const left=Math.ceil((CONFIG.REPORT_COOLDOWN_MS-(now-lastReportAt))/1000);
+    showToast("PLEASE WAIT "+left+"s BEFORE SENDING ANOTHER REPORT.");
+    return;
+  }
   const payload={message_id:selectedTrace.id,reason:$("report-reason").value,note};
   if(CONFIG.DEMO_MODE){
     $("report-note").value="";closeWindow("report");showToast("REPORT RECORDED FOR THIS DEMO.");return;
@@ -870,6 +913,7 @@ async function sendReport(){
   reportBtn.disabled=true;reportBtn.textContent="SENDING...";
   try{
     await saveReportToFirebase(payload);
+    lastReportAt=now;
     $("report-note").value="";closeWindow("report");showToast("REPORT SENT FOR MANUAL REVIEW.");
   }catch(e){
     console.error("J95 Firebase report error:",e);
@@ -948,11 +992,8 @@ $("message").addEventListener("input",()=>{
 });
 $("publish").onclick=publishTrace;
 $("use-map-location").onclick=()=>{
-  if(composeLocation){
-    showToast("CURRENT LOCATION ALREADY SELECTED.");
-  }else{
-    showToast("CLICK ANYWHERE ON THE MAP TO CHOOSE A PLACE.");
-  }
+  closeWindow("compose");
+  showToast("CLICK ANYWHERE ON THE MAP TO CHOOSE A PLACE.");
 };
 $("report-open").onclick=()=>openWindow("report");
 $("report-cancel").onclick=()=>closeWindow("report");
@@ -982,9 +1023,15 @@ $("sound-toggle").onclick=()=>{
   if(soundOn)beep(500,.08);
 };
 $("reset-map").onclick=fitWorld;
+function restoreLanguage(){
+  try{
+    const lang=localStorage.getItem("j95_lang");
+    if(lang && $("language").querySelector(`option[value="${lang}"]`)) $("language").value=lang;
+  }catch(e){}
+}
 $("language").onchange=e=>{
-  localStorage.setItem("j95_lang",e.target.value);
-  showToast("LANGUAGE SAVED. FULL UI TRANSLATION CAN BE CONNECTED NEXT.");
+  try{localStorage.setItem("j95_lang",e.target.value);}catch(err){}
+  showToast("LANGUAGE PREFERENCE SAVED.");
 };
 
 /* ---------- MAP ---------- */
@@ -1002,6 +1049,7 @@ map.on("moveend zoomend",()=>{
 });
 restoreMap();
 restoreMapVisibility();
+restoreLanguage();
 loadTraces();
 
 /* ---------- BOOT ---------- */
@@ -1040,4 +1088,3 @@ updateTasks();
 </footer>
 </body>
 </html>
-
