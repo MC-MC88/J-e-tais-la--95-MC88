@@ -1,140 +1,197 @@
+<h2 id="français">🇫🇷 Version française</h2>
+
 <div align="center">
 
-# 🌊 كنتُ هنا 95
+# 🎯 J'étais là 95 — MC88
 
-**وماذا لو لم يكن علينا، ولو لمرة واحدة، أن نُظهر شيئًا عن أنفسنا؟**
+**Un musée anonyme de mots sur la Terre.**
 
 </div>
 
----
-
-## 👋 أهلاً بك
-
-يوجد اليوم آلاف الأماكن على الإنترنت التي نستطيع فيها أن نُظهر من نحن.
-
-وجوهنا، أسماءنا، حياتنا، نجاحاتنا، آراءنا، رحلاتنا، لحظاتنا السعيدة.
-
-ثم هناك **J'étais là 95**.
-
-مكان يمكننا فيه أن نفعل العكس تمامًا.
-
-هنا، لا تحتاج إلى أن تعرّف بنفسك. لا ملف شخصي، لا اسم تحاول بناءه، لا عدد متابعين، لا إعجابات، لا سمعة، لا سباق نحو لفت الانتباه.
-
-فقط بشر، في مكان ما على هذه الأرض، يتركون أحيانًا بضع كلمات.
-
-كنت أريد أن أصنع مساحة تكون فيها **الكلمات أهم من صاحبها**.
+🌍 **Langues :** [Français](#français) · [English](#english)
 
 ---
+
+> **En bref** — Un site anonyme où vous laissez des mots sur une carte du monde.
+> 
+> **Pas de compte · Pas de likes · Pas de profil**
+
 <!-- 
-## 📸 لمحة من الداخل
+## 📸 Aperçu
 
 <div align="center">
-  <img src="https://github.com/mohamed005cheikh-rgb/J-e-tais-la--95-MC88/raw/main/images/Sc1.png" alt="الخريطة والآثار" width="100%" />
-</div>
-
-<br />
-
-<div align="center">
-  <img src="https://github.com/mohamed005cheikh-rgb/J-e-tais-la--95-MC88/raw/main/images/Sc2.png" alt="واجهة الموقع" width="100%" />
-</div>
-
-<br />
-
-<div align="center">
-  <img src="https://github.com/mohamed005cheikh-rgb/J-e-tais-la--95-MC88/raw/main/images/Sr1.gif" alt="ترك أثر على الخريطة" width="100%" />
-</div>
-
-<br />
-
-<div align="center">
-  <img src="https://github.com/mohamed005cheikh-rgb/J-e-tais-la--95-MC88/raw/main/images/Sr2.gif" alt="قراءة الآثار حول العالم" width="100%" />
+  <img src="https://github.com/mohamed005cheikh-rgb/[REPO]/raw/main/images/Sc1.png" alt="[Description]" width="100%" />
 </div>
 
 ---
+
+🔗 **Démo en ligne :** [https://...](https://...)
+📦 **Code source :** [https://github.com/mohamed005cheikh-rgb/[REPO]](https://github.com/mohamed005cheikh-rgb/[REPO])
 -->
-## ✨ ما ستجده
 
-**محيط من الكلمات.**  
-تخيلوا الأرض كمحيط هائل — لكن بدلًا من أن يكون مملوءًا بالماء، هو مملوء بآثار بشرية. فكرة، ذكرى، جملة، سؤال، ندم، تشجيع. شيء ربما لم يستطع شخص ما أن يقوله بصوت عالٍ من قبل. لكل أثر مكان. وربما، في اللحظة التي تقرأ فيها هذه الكلمات، يكتب شخص ما في مكان آخر من العالم بضع كلمات. ومن المحتمل أنك لن تعرف أبدًا من كان. وهذا تحديدًا هو ما يهمني.
+## 👋 Bienvenue
 
-**ليس موقعًا اجتماعيًا آخر.**  
-لا ملف شخصي يحتاج إلى المحافظة عليه. لا متابعون. لا إعجابات. لا موجز أخبار مصمم لإبقائك أطول وقت ممكن. لا إشعارات تدفعك إلى العودة. ولا آلية تحوّل انتباهك إلى سلعة. كنت أريد شيئًا أكثر هدوءًا بكثير — مكانًا تزوره، تقرأ فيه، تكتب أحيانًا، ثم ترحل.
-
-**خريطة كذاكرة.**  
-الخريطة ليست موجودة فقط لكي تساعدك على العثور على الآثار. إنها تحوّل الكلمات إلى جغرافيا. تصبح الجملة مكانًا، وتصبح الذكرى إحداثية. ويمكن لفكرة أن تظهر في مكان ما داخل مدينة، أو في صحراء، أو على جانب طريق، أو بالقرب من بحر، أو في مكان لم يكتب فيه أحد شيئًا من قبل. وبمرور الوقت، تتحول الخريطة إلى نوع من **الذاكرة الجماعية المجهولة**.
-
-**الأماكن الهادئة.**  
-ثم هناك الأماكن التي لم يترك فيها أحد شيئًا بعد. هذه الأماكن تهمني بشكل خاص، لأن المكان الفارغ ليس بالضرورة مكانًا بلا قصة — قد يكون فقط في انتظارها. ربما يمر شخص ما هناك يومًا ما، ويترك أول أثر له. جملة صغيرة، بضع كلمات. وفجأة، لن يعود ذلك المكان صامتًا تمامًا.
-
-**إجابة بلا إشعار.**  
-لا يوجد زر «الرد». لا محادثة، ولا سلسلة تعليقات. إذا لمستك إحدى الآثار وأردت أن تجيب عنها، يمكنك ببساطة أن تترك **أثرًا آخر بالقرب منها**. وربما يستطيع شخص ما، في وقت لاحق، أن يفهم أن كلمةً ما التقت بكلمة أخرى. محادثة لا تحتاج حتى إلى أن تعرف من يتحدث مع من.
-
-**مساحة صغيرة للابتعاد عن الضجيج.**  
-لا أدّعي أن هذا المكان سيحل علاقتنا بالشبكات الاجتماعية. لكن تعجبني فكرة أن يكون الإنترنت أيضًا قادرًا على تقديم أماكن لا تطلب منك شيئًا. لا حاجة إلى النشر باستمرار، ولا إلى بناء جمهور، ولا إلى التحقق من عدد الأشخاص الذين تفاعلوا معك. مجرد مكان هادئ موضوع في مكان ما وسط الضجيج.
+J'étais là 95 est un site web qui affiche une carte du monde. Chaque point sur la carte est un message laissé par quelqu'un. Vous pouvez lire les messages, en écrire un nouveau, ou chercher des endroits vides. Aucun compte n'est requis. Aucune donnée personnelle n'est demandée.
 
 ---
 
-## 🧭 كيف يعمل
+## ✨ Ce que vous trouverez
 
-**اذهب.**  
-تفتح الصفحة، وتجد خريطة العالم أمامك. لا حساب، لا تسجيل، لا خطوات معقدة.
+**Une carte du monde interactive.**  
+Vous déplacez la carte, vous zoomez, vous cliquez sur les points. Chaque point ouvre un message laissé par un inconnu. Le message affiche le texte, la date et les coordonnées.
 
-**اقرأ.**  
-انقر على أي أثر تراه، واقرأ ما كتبه شخص ما في مكان ما من العالم. لن تعرف من كتب، ولن يعرف أحد أنك قرأت.
+**Écrire un message anonyme.**  
+Vous choisissez un endroit sur la carte, vous tapez votre texte (5000 caractères max), et vous validez. Le message apparaît immédiatement sur la carte. Aucun nom n'est demandé.
 
-**اكتب.**  
-إذا أردت أن تترك شيئًا، اختر مكانًا على الخريطة، واكتب ما تريد. كلمة، جملة، ذكرى، سؤال. ثم ارحل.
+**Un bouton "endroit calme".**  
+L'outil choisit des coordonnées aléatoires, souvent dans des zones vides. Vous pouvez y laisser le premier message. Le point apparaît alors pour les prochains visiteurs.
 
-**لا تنتظر شيئًا في المقابل.**  
-لا إشعار. لا ردّ. لا إعجاب. أثرك سيُصبح جزءًا من الذاكرة الجماعية — موجود فقط لأنك كنت هناك.
+**Mode démo ou Firebase.**  
+Par défaut, le site utilise Firebase pour stocker les messages. Un mode démo local existe aussi avec huit messages pré-écrits. Vous pouvez basculer entre les deux dans le code.
 
-**وهذه هي الفكرة كلها.**  
-أثَر لا يجلب لك شيئًا، ولا يبني لك سمعة، ولا يحاول أن يصبح منتشرًا. أثر موجود فقط لأن شخصًا ما، في لحظة معينة، **كان هنا**.
-
----
-
-## 🪟 لماذا «95»؟
-
-لأن **Windows 95** يمثل بالنسبة لي زمنًا كانت فيه الحوسبة تحمل شيئًا مختلفًا جدًا.
-
-كانت الواجهات بسيطة، والنوافذ واضحة، والأزرار تبدو وكأنها أشياء ملموسة. كان كل شيء يبدو أبطأ، وأكثر مباشرة، وأحيانًا أكثر براءة.
-
-اخترت هذه الجمالية عن قصد. لكن خلف هذه الواجهة القديمة توجد فكرة معاصرة جدًا:
-
-**هل ما زال بإمكاننا أن نصنع مكانًا على الإنترنت لا يحاول الاستيلاء على انتباهنا؟**
+**Historique local des messages lus.**  
+Votre navigateur garde une liste des messages que vous avez déjà ouverts. Cette liste reste dans votre navigateur. Elle n'est pas envoyée.
 
 ---
 
-## 🌊 فكرة أخيرة
+## 🧭 Comment ça marche
 
-نحن نقضي وقتًا طويلًا نحاول أن نترك أثرًا يدل علينا. صورة، تعليق، ملف شخصي، إنجاز، ذكرى.
+**1. Ouvrez la page.**  
+Le navigateur charge la carte et les messages depuis Firebase.
 
-لكنني أحيانًا أتساءل: **ماذا سيحدث لو استطعنا أن نترك أثرًا دون أن نحتاج إلى أن يُعرف أننا صاحبه؟**
+**2. Cliquez sur un point.**  
+Une fenêtre s'ouvre avec le texte, la date et la position du message.
 
-وربما حينها لا يكون السؤال الحقيقي «من أنت؟»
+**3. Écrivez votre message.**  
+Cliquez sur "Leave a trace", choisissez un endroit sur la carte, tapez votre texte, validez.
 
-بل:
+**4. Le message est publié.**  
+Il est enregistré dans Firebase, la carte se met à jour, et les autres visiteurs peuvent le lire.
 
-> **« ماذا كنت ستكتب لو لم يكن بإمكان أحد أن يعرف أن هذا الأثر لك؟ »**
+C'est tout. Aucune inscription. Aucun profil.
+
+---
+
+## 🛠️ Petits coups de main
+
+**Le site ne charge aucun message ?**  
+Vérifiez votre connexion Internet. Si Firebase est bloqué, le site affiche un message d'erreur. Vous pouvez activer le mode démo dans le code.
+
+**Je ne peux pas publier ?**  
+Attendez 30 secondes entre deux messages. Le site impose un délai anti-spam.
+
+**Comment signaler un message ?**  
+Ouvrez le message, cliquez sur "Report", choisissez une raison, et validez. Votre application mail s'ouvre avec un brouillon.
+
+**Où sont stockés les messages ?**  
+Dans une base Firebase Firestore. Les préférences locales (langue, dernière position) restent dans votre navigateur.
+
+---
+
+<br /><br /><br />
+
+<h2 id="english">🇬🇧 English version</h2>
+
+<div align="center">
+
+# 🎯 J'étais là 95 — MC88
+
+**An anonymous museum of words on Earth.**
+
+</div>
+
+🌍 **Languages:** [Français](#français) · [English](#english)
+
+---
+
+> **In short** — An anonymous site where you leave words on a world map.
+> 
+> **No account · No likes · No profile**
+
+<!-- 
+## 📸 Preview
+
+<div align="center">
+  <img src="https://github.com/mohamed005cheikh-rgb/[REPO]/raw/main/images/Sc1.png" alt="[Description]" width="100%" />
+</div>
+
+---
+
+🔗 **Live demo:** [https://...](https://...)
+📦 **Source code:** [https://github.com/mohamed005cheikh-rgb/[REPO]](https://github.com/mohamed005cheikh-rgb/[REPO])
+-->
+
+## 👋 Welcome
+
+J'étais là 95 is a website that displays a world map. Each dot on the map is a message left by someone. You can read messages, write a new one, or look for empty places. No account is required. No personal data is asked.
+
+---
+
+## ✨ What you'll find
+
+**An interactive world map.**  
+You move the map, you zoom, you click on dots. Each dot opens a message left by a stranger. The message shows the text, the date and the coordinates.
+
+**Write an anonymous message.**  
+You choose a place on the map, you type your text (5000 characters max), and you confirm. The message appears immediately on the map. No name is asked.
+
+**A "quiet place" button.**  
+The tool picks random coordinates, often in empty areas. You can leave the first message there. The dot then appears for future visitors.
+
+**Demo mode or Firebase.**  
+By default, the site uses Firebase to store messages. A local demo mode also exists with eight pre-written messages. You can switch between the two in the code.
+
+**Local history of read messages.**  
+Your browser keeps a list of messages you have already opened. This list stays in your browser. It is not sent anywhere.
+
+---
+
+## 🧭 How it works
+
+**1. Open the page.**  
+The browser loads the map and the messages from Firebase.
+
+**2. Click on a dot.**  
+A window opens with the text, the date and the position of the message.
+
+**3. Write your message.**  
+Click "Leave a trace", choose a place on the map, type your text, confirm.
+
+**4. The message is published.**  
+It is saved in Firebase, the map updates, and other visitors can read it.
+
+That's it. No signup. No profile.
+
+---
+
+## 🛠️ A little help
+
+**The site loads no messages?**  
+Check your Internet connection. If Firebase is blocked, the site shows an error message. You can enable demo mode in the code.
+
+**I can't publish?**  
+Wait 30 seconds between two messages. The site enforces an anti-spam delay.
+
+**How do I report a message?**  
+Open the message, click "Report", choose a reason, and confirm. Your mail app opens with a draft.
+
+**Where are messages stored?**  
+In a Firebase Firestore database. Local preferences (language, last map position) stay in your browser.
 
 ---
 
 <div align="center">
 
-### 📞 للتواصل
+### 📞 Une question, une idée ? / A question, an idea?
 
-[![Email](https://img.shields.io/badge/Email-mohamed005cheikh@gmail.com-d4af37?style=flat-square&logo=gmail&logoColor=white)](mailto:mohamed005cheikh@gmail.com)
+[![Email](https://img.shields.io/badge/Email-mohamed005cheikh@gmail.com-d14836?style=flat-square&logo=gmail&logoColor=white)](mailto:mohamed005cheikh@gmail.com)
 [![WhatsApp](https://img.shields.io/badge/WhatsApp-+222_30_72_64_75-25D366?style=flat-square&logo=whatsapp&logoColor=white)](https://wa.me/22230726475)
-[![GitHub](https://img.shields.io/badge/GitHub-mohamed005cheikh--rgb-181717?style=flat-square&logo=github)](https://github.com/mohamed005cheikh-rgb)
+[![GitHub](https://img.shields.io/badge/GitHub-MC--MC88-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/MC-MC88)
 
 <br />
 
-**مكان لترك الكلمات في العالم.**
+*Laissez une trace. / Leave a trace.*
 
-ليس لكي تصبح شخصًا.
-
-فقط لأنك كنت هنا.
-
-<sub>© 2026 Mohamed Cheikh — MC88</sub>
+<sub>MIT License · © 2026 Mohamed Cheikh — MC88</sub>
 
 </div>
